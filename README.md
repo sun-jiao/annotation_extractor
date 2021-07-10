@@ -15,13 +15,15 @@ basic usage:
 arguments:
 
     program list:
-        extract
-        statistic
-        macse
+        extract: extract all annotations you want to fasta files
+        statistic: statistic occurence times of annotations
+        macse: run macse alignment
+
     extract and statistic args:
         -i --infile     input file
         -c --contain    contain annotations in this list only, separate using ',', do not use space
         -e --except     do not contain annotations in this list
+
     macse args:
         -i --infile     input file
         -t --transl_table       translation table (listed below)

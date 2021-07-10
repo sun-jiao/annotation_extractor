@@ -20,9 +20,9 @@ def main(argv):
         if opt in ('-h', '--help'):
             print('python terminal.py -p/--program program_name [args]\r\n'
                   'program list:\r\n'
-                  '\textract\r\n'
-                  '\tstatistic\r\n'
-                  '\tmacse\r\n'
+                  '\textract: extract all annotations you want to fasta files\r\n'
+                  '\tstatistic: statistic occurence times of annotations\r\n'
+                  '\tmacse: run macse alignment\r\n'
                   'extract and statistic args:\r\n'
                   '\t-i --infile\tinput file\r\n'
                   '\t-c --contain\tcontain annotations in this list only, separate using \',\', do not use space\r\n'
