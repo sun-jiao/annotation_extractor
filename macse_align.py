@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 
 def macse(input: str, transl_table: str):

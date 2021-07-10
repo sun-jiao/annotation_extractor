@@ -8,7 +8,7 @@ from Feature import Feature
 from statistictor import write_out_file
 
 
-def extract(filename: str, contain: list = None, exceptl: list = None, statistic: bool = True):
+def extract(filename: str, contain: list = None, exceptl: list = None):
     # contain：只包含这些类型；exceptl：不包含这些类型；两个同时存在的，前者优先。
     if contain is None:
         contain = []
