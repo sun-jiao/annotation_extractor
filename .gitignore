@@ -112,3 +112,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# input file
+*.gb
+*.csv
+
+# output file
+.\output-*
+
+# macse
+macse.jar
