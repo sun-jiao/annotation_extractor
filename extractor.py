@@ -16,7 +16,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
     if exceptl is None:
         exceptl = []
 
-    root = 'output/' + filename.split('.')[0] + '-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
+    root = 'output/' + filename.split('.')[-2] + '-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
     # 输出文件夹：/output/输入文件名+时间
     # output dir: /output/{input filename}-Time
     if not os.path.exists(root):
@@ -89,7 +89,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                         os.mkdir(root + '\\' + myfeature.key)
 
                     with open(outname, 'a', newline='') as outfile:  # 'w': write,写入并覆盖原有内容；‘a': append, 附加在原有内容之后。
-                        outfile.write('>' + seq + '\r\n')
+                        outfile.write('>' + seq + '\n')
                         for interval in myfeature.intervals:
                             if interval.complement:
                                 outfile.write(
@@ -97,14 +97,14 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                                     str(Seq(record.sequence[interval.start - 1:interval.end]).reverse_complement()))
                             else:
                                 outfile.write(record.sequence[interval.start - 1:interval.end])
-                        outfile.write('\r\n')
+                        outfile.write('\n')
 
                     processed.append(fullname + suffix)
 
                 except KeyError as e:
-                    print(str(e) + record.organism + ' ' + record.accession[0] + '\r\n' + str(feature))
+                    print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
                 except IndexError as e:
-                    print(str(e) + record.organism + ' ' + record.accession[0] + '\r\n' + str(feature))
+                    print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
 
         outname: str = root + '/annotation_statistic.csv'
 
@@ -112,4 +112,4 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
 
 
 if __name__ == '__main__':
-    extract("input.gb", contain=['CDS', 'gene', 'tRNA', 'rRNA'], exceptl=[])
+    extract("sunjiaonv.gb", contain=['CDS', 'gene', 'tRNA', 'rRNA'], exceptl=[])
