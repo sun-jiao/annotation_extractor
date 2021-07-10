@@ -42,6 +42,10 @@ def csv_statistics(filename: str, contain: list = None, exceptl: list = None):
 
     outname: str = filename.replace(".csv", "_out.csv")
 
+    write_out_file(outname, anno_list, seq_dict)
+
+
+def write_out_file(outname: str, anno_list: list, seq_dict: dict):
     if not os.path.exists(outname):
         with open(outname, 'w'): pass
 
@@ -62,4 +66,4 @@ def csv_statistics(filename: str, contain: list = None, exceptl: list = None):
 
 
 if __name__ == '__main__':
-    csv_statistics('Androsace51.csv', contain=[], exceptl=['intron', 'exon', 'misc_feature', 'repeat_region'])
+    csv_statistics('input.csv', contain=[], exceptl=['intron', 'exon', 'misc_feature', 'repeat_region'])

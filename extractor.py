@@ -5,6 +5,7 @@ from Bio import GenBank
 from Bio.Seq import Seq
 
 from Feature import Feature
+from statistictor import write_out_file
 
 
 def extract(filename: str, contain: list = None, exceptl: list = None, statistic: bool = True):
@@ -20,8 +21,16 @@ def extract(filename: str, contain: list = None, exceptl: list = None, statistic
         os.mkdir(root)
 
     with open(filename) as file:
+        seq_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为注释名称，value为出现次数
+        anno_list: list[str] = []  # 注释名列表，内容为注释名称
+
         for record in GenBank.parse(file):
             processed = []  # 储存已处理过的feature，用于判断拷贝数，每条序列开始时重置。
+
+            seq = record.organism + '-' + record.accession[0]
+            if seq not in seq_dict:
+                seq_dict[seq] = {}
+
             for feature in record.features:
                 # 遇到list为空也会算作not in contain，所以应该先检查contain非空。
                 if (len(contain) > 0 and feature.key.casefold() not in (ctype.casefold() for ctype in contain)) or (
@@ -30,8 +39,18 @@ def extract(filename: str, contain: list = None, exceptl: list = None, statistic
 
                 try:
                     myfeature = Feature(feature)
-                    fullname = myfeature.qualifier_dict[
-                                   'gene'] + ' ' + myfeature.key  # 名称由基因名+注释类型组成，例如 ycf2 gene, ycf2 CDS
+                    # 名称由基因名+注释类型组成，例如 ycf2 gene, ycf2 CDS
+                    fullname = myfeature.qualifier_dict['gene'] + ' ' + myfeature.key
+
+                    if fullname not in anno_list:
+                        anno_list.append(fullname)
+
+                    # 该注释在该序列中出现的次数
+                    if fullname not in seq_dict[seq]:
+                        seq_dict[seq][fullname] = 1
+                    else:
+                        seq_dict[seq][fullname] += 1
+
                     suffix = ''  # 后缀默认为空字符串
                     # print(record.organism + ' ' + record.accession[0] + ' ' + fullname + ' ', end=' ')
 
@@ -63,7 +82,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None, statistic
                         os.mkdir(root + '\\' + myfeature.key)
 
                     with open(outname, 'a', newline='') as outfile:  # 'w': write,写入并覆盖原有内容；‘a': append, 附加在原有内容之后。
-                        outfile.write('>' + record.organism + '-' + record.accession[0] + '\r\n')
+                        outfile.write('>' + seq + '\r\n')
                         for interval in myfeature.intervals:
                             if interval.complement:
                                 outfile.write(
@@ -79,6 +98,10 @@ def extract(filename: str, contain: list = None, exceptl: list = None, statistic
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\r\n' + str(feature))
                 except IndexError as e:
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\r\n' + str(feature))
+
+        outname: str = root + '/annotation_statistic.csv'
+
+        write_out_file(outname, anno_list, seq_dict)
 
 
 if __name__ == '__main__':
