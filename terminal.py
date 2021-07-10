@@ -14,6 +14,7 @@ def main(argv):
                                    ["program=", "infile=", "contain=", "except=", "transl_table=", "help="])
     except getopt.GetoptError:
         args_error()
+        return
 
     for opt, arg in opts:
         if opt in ('-h', '--help'):
