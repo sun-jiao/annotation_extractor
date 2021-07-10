@@ -120,5 +120,6 @@ dmypy.json
 # output file
 \output
 
-# macse
+# runable
 macse.jar
+muscle.exe

@@ -112,4 +112,4 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
 
 
 if __name__ == '__main__':
-    extract("sunjiaonv.gb", contain=['CDS', 'gene', 'tRNA', 'rRNA'], exceptl=[])
+    extract("input.gb", contain=['CDS', 'gene', 'tRNA', 'rRNA'], exceptl=[])
