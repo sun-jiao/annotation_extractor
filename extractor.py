@@ -9,23 +9,29 @@ from statistictor import write_out_file
 
 
 def extract(filename: str, contain: list = None, exceptl: list = None):
-    # contain：只包含这些类型；exceptl：不包含这些类型；两个同时存在的，前者优先。
+    # contain：只包含这些类型 contain annotations in this list only
+    # exceptl：不包含这些类型 do not contain annotations in this list
     if contain is None:
         contain = []
     if exceptl is None:
         exceptl = []
 
     root = 'output/' + filename.split('.')[0] + '-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
-    # 输出文件夹：输入文件名+时间
+    # 输出文件夹：/output/输入文件名+时间
+    # output dir: /output/{input filename}-Time
     if not os.path.exists(root):
         os.mkdir(root)
 
     with open(filename) as file:
         seq_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为注释名称，value为出现次数
-        anno_list: list[str] = []  # 注释名列表，内容为注释名称
+        # keys are sequence name, values are child dictionaries
+        # keys of hild dictionaries are annotation name, values are occurrence times
+        anno_list: list[str] = []  # 注释名列表，内容为注释名称 items are all annotations
 
         for record in GenBank.parse(file):
-            processed = []  # 储存已处理过的feature，用于判断拷贝数，每条序列开始时重置。
+            processed = []
+            # 储存已处理过的feature，用于判断拷贝数，每条序列开始时重置。
+            # processed feature, used for copy amount, reset when new sequence starts
 
             seq = record.organism + '-' + record.accession[0]
             if seq not in seq_dict:
@@ -40,12 +46,14 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                 try:
                     myfeature = Feature(feature)
                     # 名称由基因名+注释类型组成，例如 ycf2 gene, ycf2 CDS
+                    # fullname is gene name + annotation type, i. e. ycf2 gene, ycf2 CDS
                     fullname = myfeature.qualifier_dict['gene'] + ' ' + myfeature.key
 
                     if fullname not in anno_list:
                         anno_list.append(fullname)
 
                     # 该注释在该序列中出现的次数
+                    # occurrence times of this annotation in this sequence
                     if fullname not in seq_dict[seq]:
                         seq_dict[seq][fullname] = 1
                     else:
@@ -63,8 +71,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     # print(interval, end=' ')
                     # print()
 
-                    # 文件目录结构：/filename-time/feature-type/gene-name.fasta
-                    #  --root
+                    # /output/filename-time/feature-type/gene-name.fasta
                     #   |--CDS
                     #     |--accD
                     #     |--rps12
@@ -86,7 +93,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                         for interval in myfeature.intervals:
                             if interval.complement:
                                 outfile.write(
-                                    # 计算已知序列的反向互补序列
+                                    # 计算已知序列的反向互补序列 reverse complement of the sequence
                                     str(Seq(record.sequence[interval.start - 1:interval.end]).reverse_complement()))
                             else:
                                 outfile.write(record.sequence[interval.start - 1:interval.end])

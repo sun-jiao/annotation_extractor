@@ -61,9 +61,9 @@ class Interval(object):
     例如：record.sequence[interval.start - 1:interval.end]
 
         Attributes:
-         - start - 序列起始位置
-         - end - 序列终止位置
-         - complement - 是否反向互补序列
+         - start - 序列起始位置 start position
+         - end - 序列终止位置 end position
+         - complement - 是否反向互补序列 revert complement or not
 
         """
     def __init__(self, start: int, end: int, complement: bool):
