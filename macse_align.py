@@ -26,5 +26,5 @@ def macse(input: str, transl_table: str):
 
 
 if __name__ == '__main__':
-    macse('input-2021-07-08_21-39-56', str(11))
+    macse('\\output\\input-2021-07-08_21-39-56', str(11))
 

@@ -118,7 +118,7 @@ dmypy.json
 *.csv
 
 # output file
-.\output-.*
+\output
 
 # macse
 macse.jar
