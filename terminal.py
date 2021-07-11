@@ -5,6 +5,7 @@ import sys, getopt
 
 import extractor
 import macse_align
+import muscle_align
 import statistictor
 
 
@@ -22,11 +23,14 @@ def main(argv):
                   'program list:\n'
                   '\textract: extract all annotations you want to fasta files\n'
                   '\tstatistic: statistic occurence times of annotations\n'
+                  '\tmuscle: run muscle alignment\n'
                   '\tmacse: run macse alignment\n'
                   'extract and statistic args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-c --contain\tcontain annotations in this list only, separate using \',\', do not use space\n'
                   '\t-e --except\tdo not contain annotations in this list\n'
+                  'muscle args:\n'
+                  '\t-i --infile\tinput file\n'
                   'macse args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-t --transl_table\ttranslation table (listed below)\n'
@@ -75,6 +79,14 @@ def main(argv):
                         transl_table = arg0
                 if infile != '':
                     macse_align.macse(infile, transl_table)
+                else:
+                    args_error()
+            elif arg == 'macse':
+                for opt0, arg0 in opts:
+                    if opt0 in ('-i', '--infile'):
+                        muscle_align.muscle(arg0)
+                else:
+                     args_error()
             else:
                 args_error()
 

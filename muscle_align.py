@@ -23,5 +23,5 @@ def muscle(infile: str):
 
 
 if __name__ == '__main__':
-    muscle('output\\sunjiaonv-2021-07-10_21-19-07')
+    muscle('output\\input-2021-07-10_21-19-07')
 
