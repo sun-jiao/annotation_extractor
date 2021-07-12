@@ -25,12 +25,10 @@ def main(argv):
                   '\tstatistic: statistic occurence times of annotations\n'
                   '\tmuscle: run muscle alignment\n'
                   '\tmacse: run macse alignment\n'
-                  'extract and statistic args:\n'
+                  'extract, statistic and muscle args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-c --contain\tcontain annotations in this list only, separate using \',\', do not use space\n'
                   '\t-e --except\tdo not contain annotations in this list\n'
-                  'muscle args:\n'
-                  '\t-i --infile\tinput file\n'
                   'macse args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-t --transl_table\ttranslation table (listed below)\n'
@@ -53,7 +51,7 @@ def main(argv):
                   '\t\t23\tThraustochytrium_Mitochondrial_Code\n')
             sys.exit()
         elif opt in ("-p", "--program"):
-            if arg in ('extract', 'statistic'):
+            if arg in ('extract', 'statistic', 'muscle'):
                 infile = ''
                 contain = ''
                 exceptl = ''
@@ -69,6 +67,8 @@ def main(argv):
                         extractor.extract(infile, contain, exceptl)
                     elif arg == 'statistic':
                         statistictor.csv_statistics(infile, contain, exceptl)
+                    elif arg == 'muscle':
+                        muscle_align.muscle(infile, contain, exceptl)
             elif arg == 'macse':
                 infile = ''
                 transl_table = ''
@@ -81,12 +81,6 @@ def main(argv):
                     macse_align.macse(infile, transl_table)
                 else:
                     args_error()
-            elif arg == 'macse':
-                for opt0, arg0 in opts:
-                    if opt0 in ('-i', '--infile'):
-                        muscle_align.muscle(arg0)
-                else:
-                     args_error()
             else:
                 args_error()
 
