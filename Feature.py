@@ -41,6 +41,7 @@ class Feature(Record.Feature):
             interval_strs.append(self.location)
 
         for interval_str in interval_strs:
+            interval_str = interval_str.replace('<', "").replace(">", "")
             complement: bool
             if interval_str.startswith("complement"):
                 # 如果以complement开头，去掉外层的complement，并将该段interval标记为反向互补序列

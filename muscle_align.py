@@ -37,4 +37,4 @@ def muscle(infile: str, contain: list = None, exceptl: list = None):
 
 
 if __name__ == '__main__':
-    muscle('output\\input-2021-07-10_21-19-07', contain=['CDS'])
+    muscle('output\\input-2021-07-15_13-55-37', contain=['CDS'])

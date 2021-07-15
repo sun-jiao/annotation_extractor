@@ -4,7 +4,7 @@ This is a simple biology tool for extract all annotations you want from Genbank 
 
 ## Author
 
-**Sun Jiao** (**孙娇**) from Wuhan Botanical Garden, Chinese Academy of Science
+**Sun Jiao** from Wuhan Botanical Garden, Chinese Academy of Science
 
 ## Usage
 
@@ -17,9 +17,10 @@ arguments:
     program list:
         extract: extract all annotations you want to fasta files
         statistic: statistic occurence times of annotations
+        muscle: run muscle alignment
         macse: run macse alignment
 
-    extract and statistic args:
+    extract, statistic and muscle args:
         -i --infile     input file
         -c --contain    contain annotations in this list only, separate using ',', do not use space
         -e --except     do not contain annotations in this list

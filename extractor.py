@@ -33,7 +33,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
             # 储存已处理过的feature，用于判断拷贝数，每条序列开始时重置。
             # processed feature, used for copy amount, reset when new sequence starts
 
-            seq = record.organism + '-' + record.accession[0]
+            seq = (record.organism + '-' + record.accession[0]).replace(' ', '_')
             if seq not in seq_dict:
                 seq_dict[seq] = {}
 
@@ -47,7 +47,18 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     myfeature = Feature(feature)
                     # 名称由基因名+注释类型组成，例如 ycf2 gene, ycf2 CDS
                     # fullname is gene name + annotation type, i. e. ycf2 gene, ycf2 CDS
-                    fullname = myfeature.qualifier_dict['gene'] + ' ' + myfeature.key
+                    if 'gene' in myfeature.qualifier_dict:
+                        name_key = 'gene'
+                    elif 'product' in myfeature.qualifier_dict:
+                        name_key = 'product'
+                    elif 'organism' in myfeature.qualifier_dict:
+                        name_key = 'organism'
+                    elif 'note' in myfeature.qualifier_dict:
+                        name_key = 'note'
+
+                    fullname = myfeature.qualifier_dict[name_key] + ' ' + myfeature.key
+
+                    print(f'Parsing: {fullname}')
 
                     if fullname not in anno_list:
                         anno_list.append(fullname)
@@ -84,7 +95,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     #   |--tRNA
                     #   |--others
 
-                    outname = root + '\\' + myfeature.key + '\\' + myfeature.qualifier_dict['gene'] + suffix + '.fasta'
+                    outname = root + '\\' + myfeature.key + '\\' + myfeature.qualifier_dict[name_key] + suffix + '.fasta'
                     if not os.path.exists(root + '\\' + myfeature.key):
                         os.mkdir(root + '\\' + myfeature.key)
 
@@ -106,10 +117,13 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                 except IndexError as e:
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
 
+        print('Writing csv file')
         outname: str = root + '/annotation_statistic.csv'
 
         write_out_file(outname, anno_list, seq_dict)
+        print('Annotation extraction complete.')
 
 
 if __name__ == '__main__':
-    extract("input.gb", contain=['CDS', 'gene', 'tRNA', 'rRNA'], exceptl=[])
+    extract("input.gb", contain=[# 'CDS', 'gene', 'tRNA', 'rRNA'
+                                 ], exceptl=[])
