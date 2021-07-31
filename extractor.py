@@ -100,7 +100,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                         os.mkdir(root + '\\' + myfeature.key)
 
                     with open(outname, 'a', newline='') as outfile:  # 'w': write,写入并覆盖原有内容；‘a': append, 附加在原有内容之后。
-                        outfile.write('>' + seq + '\n')
+                        outfile.write(f'>{seq}\n')
                         for interval in myfeature.intervals:
                             if interval.complement:
                                 outfile.write(
