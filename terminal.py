@@ -7,6 +7,7 @@ import extractor
 import macse_align
 import muscle_align
 import statistictor
+from conbine import combine
 
 
 def main(argv):
@@ -25,10 +26,14 @@ def main(argv):
                   '\tstatistic: statistic occurence times of annotations\n'
                   '\tmuscle: run muscle alignment\n'
                   '\tmacse: run macse alignment\n'
+                  '\tcombine: combine multiple fasta file into fasta, nexus, phy files\n'
                   'extract, statistic and muscle args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-c --contain\tcontain annotations in this list only, separate using \',\', do not use space\n'
                   '\t-e --except\tdo not contain annotations in this list\n'
+                  'combine args:\n'
+                  '\t-i --infile\tinput file folders list, separate using \',\', do not use space\n'
+                  '\t-m --mole_type\tmolecular type, should be one of DNA, RNA, Protein'
                   'macse args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-t --transl_table\ttranslation table (listed below)\n'
@@ -63,12 +68,30 @@ def main(argv):
                     elif opt0 in ('-e', '--except'):
                         exceptl = arg0.split(',')
                 if infile != '':
-                    if arg == 'extract':
-                        extractor.extract(infile, contain, exceptl)
-                    elif arg == 'statistic':
-                        statistictor.csv_statistics(infile, contain, exceptl)
-                    elif arg == 'muscle':
-                        muscle_align.muscle(infile, contain, exceptl)
+                    try:
+                        if arg == 'extract':
+                            extractor.extract(infile, contain, exceptl)
+                        elif arg == 'statistic':
+                            statistictor.csv_statistics(infile, contain, exceptl)
+                        elif arg == 'muscle':
+                            muscle_align.muscle(infile, contain, exceptl)
+                    except ValueError:
+                        args_error()
+            elif arg == 'combine':
+                infile = ''
+                mole_type = ''
+                for opt0, arg0 in opts:
+                    if opt0 in ('-i', '--infile'):
+                        infile = arg0.split(',')
+                    elif opt0 in ('-m', '--mole_type'):
+                        mole_type = arg0
+                if infile != '':
+                    try:
+                        combine(infile, mole_type)
+                    except ValueError:
+                        args_error()
+                else:
+                    args_error()
             elif arg == 'macse':
                 infile = ''
                 transl_table = ''
@@ -78,7 +101,10 @@ def main(argv):
                     elif opt0 in ('-t', '--transl_table'):
                         transl_table = arg0
                 if infile != '':
-                    macse_align.macse(infile, transl_table)
+                    try:
+                        macse_align.macse(infile, transl_table)
+                    except ValueError:
+                        args_error()
                 else:
                     args_error()
             else:

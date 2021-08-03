@@ -128,7 +128,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                             if info_dict[seq_name]['IR'] == '':
                                 info_dict[seq_name]['IR'] = len(seq_of_it)
                             elif info_dict[seq_name]['IR'] != len(seq_of_it):
-                                print('repeat region length difference, please check it')
+                                print('repeat region length different, please check it')
                         elif 'CDS' in outname:
                             info_dict[seq_name]['PCG'] = info_dict[seq_name]['PCG'] + 1
                         elif 'tRNA' in outname:

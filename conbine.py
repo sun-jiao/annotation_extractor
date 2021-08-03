@@ -5,6 +5,9 @@ from Bio import SeqIO
 
 
 def combine(infile_list: list, molecular_type: str):
+    if molecular_type not in ['DNA', 'RNA', 'Protein']:
+        raise ValueError('molecular type should be one of DNA, RNA, Protein')
+
     seq_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为基因名称，value为碱基序列
     # keys are sequence name, values are child dictionaries
     # keys of child dictionaries are gene(or CDS, trnA, etc) name, values are sequence
