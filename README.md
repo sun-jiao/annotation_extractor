@@ -25,6 +25,10 @@ arguments:
         -c --contain    contain annotations in this list only, separate using ',', do not use space
         -e --except     do not contain annotations in this list
 
+    combine args:
+        -i --infile     input file folders list, separate using ',', do not use space
+        -m --mole_type  molecular type, should be one of DNA, RNA, Protein
+
     macse args:
         -i --infile     input file
         -t --transl_table       translation table (listed below)
@@ -45,6 +49,20 @@ arguments:
                 21      Trematode_Mitochondrial_Code
                 22      Scenedesmus_obliquus_mitochondrial_Code
                 23      Thraustochytrium_Mitochondrial_Code
+
+###Examples
+
+extractor, extract annotations from input.gb, contain CDS, gene, rRNA, tRNA, except repeat_region and misc_feature:
+
+    python terminal.py -p extract -i input.gb -c CDS,gene,rRNA,tRNA -e repeat_region,misc_feature
+
+macse alignment, translate table is 11:
+
+    python terminal.py -p macse -i \output\input-20xx-mm-dd_hh-mm-ss -t 11
+
+combine all fasta files in CDS folder:
+
+    python terminal.py -p combine -i \CDS,\tRNA -m DNA
 
 ## Others
 

@@ -38,6 +38,8 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
             # processed feature, used for copy amount, reset when new sequence starts
 
             seq_name = (record.organism + '-' + record.accession[0]).replace(' ', '_')
+            print(f'Parsing: {seq_name}')
+
             if seq_name not in seq_dict:
                 seq_dict[seq_name] = {}
             if seq_name not in info_dict:
@@ -67,7 +69,7 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
 
                     fullname = myfeature.qualifier_dict[name_key] + ' ' + myfeature.key
 
-                    print(f'Parsing: {fullname}')
+                    # print(f'Parsing: {fullname}')
 
                     if fullname not in anno_list:
                         anno_list.append(fullname)
@@ -145,15 +147,15 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                 except IndexError as e:
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
 
-        print('Writing statistic csv file')
+        print('\nWriting statistic csv file')
         outname: str = root + '/annotation_statistic.csv'
         write_out_file(outname, anno_list, seq_dict)
 
-        print('Checking properties and writing to csv file')
+        print('\nChecking properties and writing to csv file')
         p_outname: str = root + '/properties_statistic.csv'
         write_out_file(p_outname, info_list, info_dict)
 
-        print('Annotation extraction complete.')
+        print('\nAnnotation extraction complete.')
 
 
 if __name__ == '__main__':

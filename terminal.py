@@ -8,19 +8,21 @@ import macse_align
 import muscle_align
 import statistictor
 from conbine import combine
+from main import app_name
 
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "hp:i:c:e:t:h:",
-                                   ["program=", "infile=", "contain=", "except=", "transl_table=", "help="])
+        opts, args = getopt.getopt(argv, "hp:i:c:e:t:h:m:",
+                                   ["program=", "infile=", "contain=", "except=", "transl_table=", "help=", "mole_type="])
     except getopt.GetoptError:
         args_error()
         return
 
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print('python terminal.py -p/--program program_name [args]\n'
+            print(f'{app_name} usage help:\n'
+                  'python terminal.py -p/--program program_name [args]\n'
                   'program list:\n'
                   '\textract: extract all annotations you want to fasta files\n'
                   '\tstatistic: statistic occurence times of annotations\n'
@@ -33,7 +35,7 @@ def main(argv):
                   '\t-e --except\tdo not contain annotations in this list\n'
                   'combine args:\n'
                   '\t-i --infile\tinput file folders list, separate using \',\', do not use space\n'
-                  '\t-m --mole_type\tmolecular type, should be one of DNA, RNA, Protein'
+                  '\t-m --mole_type\tmolecular type, should be one of DNA, RNA, Protein\n'
                   'macse args:\n'
                   '\t-i --infile\tinput file\n'
                   '\t-t --transl_table\ttranslation table (listed below)\n'
@@ -84,12 +86,12 @@ def main(argv):
                     if opt0 in ('-i', '--infile'):
                         infile = arg0.split(',')
                     elif opt0 in ('-m', '--mole_type'):
-                        mole_type = arg0
+                        mole_type = str(arg0)
                 if infile != '':
                     try:
                         combine(infile, mole_type)
-                    except ValueError:
-                        args_error()
+                    except ValueError as e:
+                        print(e)
                 else:
                     args_error()
             elif arg == 'macse':

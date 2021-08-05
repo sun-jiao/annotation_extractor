@@ -1,11 +1,13 @@
 import os
 
+from main import app_name
+
 
 def macse(input: str, transl_table: str):
     if not os.path.isfile('macse.jar'):
         print('Please download latest version of macse from: '
               'https://bioweb.supagro.inra.fr/macse/index.php?menu=releases \n'
-              'place it in annotation_extractor dir, and rename it to \"macse.jar\".')
+              f'place it in {app_name} dir, and rename it to \"macse.jar\".')
         return
 
     CDS_path = '.\\' + input + '\\CDS\\'

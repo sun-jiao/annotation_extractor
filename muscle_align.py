@@ -1,5 +1,7 @@
 import os
 
+from main import app_name
+
 
 def muscle(infile: str, contain: list = None, exceptl: list = None):
     if contain is None:
@@ -10,7 +12,7 @@ def muscle(infile: str, contain: list = None, exceptl: list = None):
     if not os.path.isfile('muscle.exe'):
         print('Please download latest version of muscle from: '
               'https://www.drive5.com/muscle/downloads.htm \n'
-              'place it in annotation_extractor dir, and rename it to \"muscle.exe\".')
+              f'place it in {app_name} dir, and rename it to \"muscle.exe\".')
         return
 
     for folder in os.listdir(infile):

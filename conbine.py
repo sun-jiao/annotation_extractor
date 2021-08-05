@@ -14,6 +14,7 @@ def combine(infile_list: list, molecular_type: str):
     gene_dict: dict = {}  # key为基因名称，value为该基因的长度
     # keys are all listed genes, values are longest length of the gene
 
+    print('Reading input files.')
     for infile in infile_list:
         for fasta_item in os.listdir(infile):
             if not (fasta_item.endswith('.fasta') or fasta_item.endswith('.fas') or fasta_item.endswith('.fsa')):
@@ -66,6 +67,7 @@ def combine(infile_list: list, molecular_type: str):
 
     # writing fasta file:
     fasta_filename = os.path.join(file_dir, 'combine.fasta')
+    print('Writing combined fasta file.')
 
     with open(fasta_filename, 'w', newline='') as outfile:
         for name in all_dict:
@@ -74,6 +76,7 @@ def combine(infile_list: list, molecular_type: str):
 
     # writing nex file:
     nex_filename = os.path.join(file_dir, 'combine.nex')
+    print('Writing combined nexus file.')
 
     with open(nex_filename, 'w', newline='') as outfile:
         outfile.write('#' + f'NEXUS\nBEGIN DATA;\ndimensions ntax={str(len(all_dict))} nchar={str(total_length)};\n'
@@ -88,6 +91,7 @@ def combine(infile_list: list, molecular_type: str):
 
     # writing phy file:
     phy_filename = os.path.join(file_dir, 'combine.phy')
+    print('Writing combined phy file.')
 
     with open(phy_filename, 'w', newline='') as outfile:
         outfile.write(f' {str(len(all_dict))} {str(total_length)}\n')
@@ -98,6 +102,9 @@ def combine(infile_list: list, molecular_type: str):
                 name = name + ' '
             outfile.write(f'{name}{all_dict[key]}\n')
         outfile.write('\n')
+
+    print('Task finished.')
+
 
 
 def name_format(name: str):
