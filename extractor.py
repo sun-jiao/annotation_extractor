@@ -17,6 +17,9 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
     if exceptl is None:
         exceptl = []
 
+    if not os.path.exists('output'):
+        os.mkdir('output')
+
     root = 'output/' + filename.split('.')[-2] + '-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
     # 输出文件夹：/output/输入文件名+时间
     # output dir: /output/{input filename}-Time
