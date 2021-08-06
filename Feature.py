@@ -26,6 +26,7 @@ class Feature(Record.Feature):
 
         # 对intervals或者叫location的储存也非常蠢，直接将原始文件的原文储存为一个字符串。
         # 例如：join(complement(70173..70286),140516..140746,complement(98372..98398))
+        # 还有complement在外，join在内的：complement(join(103716..103750,104294..104525,76550..76663))
         # 蠢到让我不知道该说点什么好。
         # 此处调用后面构造的Interval类，将每一段作为一个interval，存储在一个list里面.
         # Interval类详见后文

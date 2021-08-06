@@ -16,16 +16,16 @@ def muscle(infile: str, contain: list = None, exceptl: list = None):
         return
 
     for folder in os.listdir(infile):
-        if os.path.isfile(os.path.join(infile , folder)) or folder.endswith('MUSCLE') or \
+        if os.path.isfile(os.path.join(infile, folder)) or folder.endswith('MUSCLE') or \
                 (len(contain) > 0 and folder.casefold() not in (ctype.casefold() for ctype in contain)) or \
                 (folder.casefold() in (etype.casefold() for etype in exceptl)):
             continue
 
-        input_path = infile + '\\' + folder + '\\'
-        out_path = '.\\' + infile + '\\' + folder + '_MUSCLE\\'
+        input_path = os.path.join(infile, folder)
+        out_path = os.path.join(infile, folder + '_MUSCLE')
 
         if not os.path.exists(out_path):
-            os.mkdir(out_path)
+            os.makedirs(out_path)
 
         print(f'Aligning {folder}:')
 

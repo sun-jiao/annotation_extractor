@@ -1,10 +1,10 @@
 import os
-import time
 
 from Bio import GenBank
 from Bio.Seq import Seq
 
 from Feature import Feature
+from main import dir_legalize, dir_with_time
 from statistictor import write_out_file
 from Bio.SeqUtils import GC
 
@@ -17,14 +17,12 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
     if exceptl is None:
         exceptl = []
 
-    if not os.path.exists('output'):
-        os.mkdir('output')
-
-    root = 'output/' + filename.split('.')[-2] + '-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
+    root = os.path.join('output', dir_with_time(os.path.split(os.path.splitext(filename)[0])[1]) )
+    root = dir_legalize(root)
     # 输出文件夹：/output/输入文件名+时间
     # output dir: /output/{input filename}-Time
     if not os.path.exists(root):
-        os.mkdir(root)
+        os.makedirs(root)
 
     with open(filename) as file:
         seq_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为注释名称，value为出现次数
@@ -109,10 +107,11 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     #   |--tRNA
                     #   |--others
 
-                    outname = root + '\\' + myfeature.key + '\\' + myfeature.qualifier_dict[
-                        name_key] + suffix + '.fasta'
-                    if not os.path.exists(root + '\\' + myfeature.key):
-                        os.mkdir(root + '\\' + myfeature.key)
+                    keydir = dir_legalize(os.path.join(root, myfeature.key))
+                    if not os.path.exists(keydir):
+                        os.makedirs(keydir)
+                    outname = os.path.join(keydir, myfeature.qualifier_dict[name_key] + suffix + '.fasta')
+                    outname = dir_legalize(outname)
 
                     with open(outname, 'a', newline='') as outfile:  # 'w': write,写入并覆盖原有内容；‘a': append, 附加在原有内容之后。
                         outfile.write(f'>{seq_name}\n')
@@ -151,16 +150,16 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
 
         print('\nWriting statistic csv file')
-        outname: str = root + '/annotation_statistic.csv'
-        write_out_file(outname, anno_list, seq_dict)
+        s_outname: str = os.path.join(root, '/annotation_statistic.csv')
+        write_out_file(s_outname, anno_list, seq_dict)
 
         print('\nChecking properties and writing to csv file')
-        p_outname: str = root + '/properties_statistic.csv'
+        p_outname: str = os.path.join(root, '/properties_statistic.csv')
         write_out_file(p_outname, info_list, info_dict)
 
         print('\nAnnotation extraction complete.')
 
 
 if __name__ == '__main__':
-    extract("input.gb", contain=[  # 'CDS', 'gene', 'tRNA', 'rRNA'
+    extract("sunjiao-20210805-Vincetoxicum_outgroup.gb", contain=[  # 'CDS', 'gene', 'tRNA', 'rRNA'
     ], exceptl=[])

@@ -10,13 +10,16 @@ def macse(input: str, transl_table: str):
               f'place it in {app_name} dir, and rename it to \"macse.jar\".')
         return
 
-    CDS_path = '.\\' + input + '\\CDS\\'
-    AA_out = '.\\' + input + '\\CDS_AA\\'
-    NUC_out = '.\\' + input + '\\CDS_NUC\\'
+    CDS_path = os.path.join(input, 'CDS')
+    AA_out = os.path.join(input, 'CDS_AA')
+    NUC_out = os.path.join(input, 'CDS_NUC')
+    if (not os.path.exists(CDS_path)) or len(os.listdir(CDS_path)) == 0:
+        print('CDS folder not exist or empty, nothing to align.')
+        return
     if not os.path.exists(AA_out):
-        os.mkdir(AA_out)
+        os.makedirs(AA_out)
     if not os.path.exists(NUC_out):
-        os.mkdir(NUC_out)
+        os.makedirs(NUC_out)
 
     amount = len(os.listdir(CDS_path))
     for index, filename in enumerate(os.listdir(CDS_path)):

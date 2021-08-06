@@ -3,6 +3,8 @@ import time
 
 from Bio import SeqIO
 
+from main import legalize, dir_with_time
+
 
 def combine(infile_list: list, molecular_type: str):
     if molecular_type not in ['DNA', 'RNA', 'Protein']:
@@ -49,9 +51,9 @@ def combine(infile_list: list, molecular_type: str):
                 seq = seq + '-'
             all_dict[seq_name] = all_dict[seq_name] + seq
 
-    file_dir = os.path.join('output', 'combine-' + str(time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())))
+    file_dir = os.path.join('output', dir_with_time('combine'))
     if not os.path.exists(file_dir):
-        os.mkdir(file_dir)
+        os.makedirs(file_dir)
 
     total_length = 0
     # writing partition file:
@@ -106,9 +108,8 @@ def combine(infile_list: list, molecular_type: str):
     print('Task finished.')
 
 
-
 def name_format(name: str):
-    name = name.replace('Unclassified.', '_').replace('[^A-Za-z_]', '_')
+    name = legalize(name.replace('Unclassified.', '_'))
     while '__' in name:
         name = name.replace('__', '_')
     return name
