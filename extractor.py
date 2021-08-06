@@ -150,11 +150,11 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                     print(str(e) + record.organism + ' ' + record.accession[0] + '\n' + str(feature))
 
         print('\nWriting statistic csv file')
-        s_outname: str = os.path.join(root, '/annotation_statistic.csv')
+        s_outname: str = os.path.join(root, 'annotation_statistic.csv')
         write_out_file(s_outname, anno_list, seq_dict)
 
         print('\nChecking properties and writing to csv file')
-        p_outname: str = os.path.join(root, '/properties_statistic.csv')
+        p_outname: str = os.path.join(root, 'properties_statistic.csv')
         write_out_file(p_outname, info_list, info_dict)
 
         print('\nAnnotation extraction complete.')

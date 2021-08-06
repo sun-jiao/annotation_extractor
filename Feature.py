@@ -9,6 +9,7 @@ class Feature(Record.Feature):
          - feature - instance of parent feature class
 
         """
+
     def __init__(self, feature: Record.Feature):
         super().__init__()
         self.__dict__ = feature.__dict__
@@ -34,6 +35,11 @@ class Feature(Record.Feature):
         self.intervals = []
 
         # 去掉外层的join和order，虽然我没搞明白这俩的区别是什么，但是……就这样吧。
+        fully_complement = False
+        if self.location.startswith("complement"):
+            self.location = self.location[11:-1]
+            fully_complement = True
+
         if self.location.startswith("join"):
             interval_strs.extend(self.location[5:-1].split(','))
         elif self.location.startswith("order"):
@@ -41,15 +47,18 @@ class Feature(Record.Feature):
         else:
             interval_strs.append(self.location)
 
+        if fully_complement:
+            interval_strs.reverse()
+
         for interval_str in interval_strs:
             interval_str = interval_str.replace('<', "").replace(">", "")
             complement: bool
             if interval_str.startswith("complement"):
                 # 如果以complement开头，去掉外层的complement，并将该段interval标记为反向互补序列
                 interval_str = interval_str[11:-1]
-                complement = True
+                complement = not fully_complement  # 正常情况下为True，fully_complement情况下为False
             else:
-                complement = False
+                complement = fully_complement  # 正常情况下为False，fully_complement情况下为True
             interval_list = interval_str.split('..')
             interval = Interval(interval_list[0], interval_list[1], complement)
             self.intervals.append(interval)
@@ -68,6 +77,7 @@ class Interval(object):
          - complement - 是否反向互补序列 revert complement or not
 
         """
+
     def __init__(self, start: int, end: int, complement: bool):
         self.start = int(start)
         self.end = int(end)

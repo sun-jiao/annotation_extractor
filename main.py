@@ -6,12 +6,16 @@ app_name = 'annotation extractor'
 
 
 # os.makedirs() 递归创建目录
+# os.path.split() 将路径和文件名二者分开，并非递归分割
+# os.path.splitext() 将路径和扩展名二者分开
 
 def dir_legalize(filename: str):
-    dir = re.split(r'[/\\]', filename)
+    splitext = os.path.splitext(filename)
+    dirs = re.split(r'[/\\]', splitext[0])
     newdir = []
-    for level in dir:
+    for level in dirs:
         newdir.append(legalize(level))
+    newdir[-1] = newdir[-1] + splitext[1]
     return os.path.join(*newdir)
 
 

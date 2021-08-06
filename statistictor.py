@@ -46,8 +46,6 @@ def csv_statistics(filename: str, contain: list = None, exceptl: list = None):
 
 
 def write_out_file(outname: str, anno_list: list, seq_dict: dict):
-    if not os.path.exists(outname):
-        with open(outname, 'w'): pass
 
     with open(outname, 'w', newline='') as csvfile:  # 'w'表示写入
         writer = csv.writer(csvfile)
