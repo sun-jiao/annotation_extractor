@@ -67,6 +67,8 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
                         name_key = 'organism'
                     elif 'note' in myfeature.qualifier_dict:
                         name_key = 'note'
+                    elif 'rpt_type' in myfeature.qualifier_dict:
+                        name_key = 'rpt_type'
 
                     fullname = myfeature.qualifier_dict[name_key] + ' ' + myfeature.key
 
@@ -161,5 +163,8 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
 
 
 if __name__ == '__main__':
-    extract("sunjiao-20210805-Vincetoxicum_outgroup.gb", contain=[  # 'CDS', 'gene', 'tRNA', 'rRNA'
-    ], exceptl=[])
+    extract("input.gb", contain=[
+        # 'CDS', 'gene', 'tRNA', 'rRNA'
+    ], exceptl=[
+        'exon', 'intron'
+    ])
