@@ -167,5 +167,5 @@ if __name__ == '__main__':
     extract("input.gb", contain=[
         # 'CDS', 'gene', 'tRNA', 'rRNA'
     ], exceptl=[
-        'exon', 'intron'
+         'source', 'exon', 'intron'
     ])
