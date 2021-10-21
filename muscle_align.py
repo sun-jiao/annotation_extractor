@@ -33,8 +33,8 @@ def muscle(infile: str, contain: list = None, exceptl: list = None):
 
         for index, filename in enumerate(os.listdir(input_path)):
             print(f'{index} of {amount} complete' + '({:.2%})'.format(index / amount) + f'\nAligning {filename}')
-            os.system('.\muscle -in ' + input_path + filename
-                      + ' -out ' + out_path + filename)
+            os.system('.\muscle -in ' + input_path + '\\' + filename
+                      + ' -out ' + out_path + '\\' + filename)
         print(f'{amount} of {amount} complete (100%)')
 
 

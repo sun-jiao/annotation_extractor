@@ -2,6 +2,7 @@ import os
 
 from Bio import GenBank
 from Bio.Seq import Seq
+from typing import List
 
 from Feature import Feature
 from main import dir_legalize, dir_with_time
@@ -28,10 +29,10 @@ def extract(filename: str, contain: list = None, exceptl: list = None):
         seq_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为注释名称，value为出现次数
         # keys are sequence name, values are child dictionaries
         # keys of child dictionaries are annotation name, values are occurrence times
-        anno_list: list[str] = []  # 注释名列表，内容为注释名称 items are all annotations
+        anno_list: List[str] = []  # 注释名列表，内容为注释名称 items are all annotations
         info_dict: dict = {}  # key为序列名称，value为另一个字典，子字典的key为序列属性，value为属性值
         # keys are sequence name, values are child dictionaries, which contains other properties and values
-        info_list: list[str] = ['Length', 'LSC', 'SSC', 'IR', 'GC-content', 'PCG', 'tRNA', 'rRNA']
+        info_list: List[str] = ['Length', 'LSC', 'SSC', 'IR', 'GC-content', 'PCG', 'tRNA', 'rRNA']
 
         for record in GenBank.parse(file):
             processed = []
