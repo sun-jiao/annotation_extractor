@@ -67,6 +67,33 @@ def combine(infile_list: list, molecular_type: str):
             total_length = total_length + length
             outfile.write(f'{total_length}\n')
 
+    # writing partition finder 2 cfg data blocks (pos 1~3)
+    total_length = 0
+    pf2_3pos_file = os.path.join(file_dir, 'pf2_data_blocks_3pos.txt')
+
+    with open(pf2_3pos_file, 'w', newline='') as outfile:
+        outfile.write('[data_blocks]\n')
+        for gene_name in gene_dict:
+            length = gene_dict[gene_name]
+            end_pos = total_length + length
+            outfile.write(f'{gene_name}_pos1 = {total_length + 1}-{end_pos}\\3;\n')
+            outfile.write(f'{gene_name}_pos2 = {total_length + 2}-{end_pos}\\3;\n')
+            outfile.write(f'{gene_name}_pos3 = {total_length + 3}-{end_pos}\\3;\n')
+            total_length = end_pos
+
+    # writing partition finder 2 cfg data blocks (no 3 positions)
+    total_length = 0
+    pf2_1pos_file = os.path.join(file_dir, 'pf2_data_blocks_1pos.txt')
+
+    with open(pf2_1pos_file, 'w', newline='') as outfile:
+        outfile.write('[data_blocks]\n')
+        for gene_name in gene_dict:
+            length = gene_dict[gene_name]
+            end_pos = total_length + length
+            outfile.write(f'{gene_name} = {total_length + 1}-{end_pos};\n')
+            total_length = end_pos
+
+
     # writing fasta file:
     fasta_filename = os.path.join(file_dir, 'combine.fasta')
     print('Writing combined fasta file.')
