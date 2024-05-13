@@ -7,8 +7,13 @@ from typing import List
 from Feature import Feature
 from main import dir_legalize, dir_with_time
 from statistictor import write_out_file
-from Bio.SeqUtils import GC
-
+try:
+    from Bio.SeqUtils import gc_fraction
+    def GC(sequence):
+        return 100 * gc_fraction(sequence, ambiguous="ignore")
+except ImportError:
+    # Older versions have this:
+    from Bio.SeqUtils import GC
 
 def extract(filename: str, contain: list = None, exceptl: list = None):
     # contain：只包含这些类型 contain annotations in this list only
