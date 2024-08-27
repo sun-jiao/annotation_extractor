@@ -2,10 +2,6 @@
 
 This is a simple biology tool for extract all annotations you want from Genbank file(*.gb). Based on Biopython package.
 
-## Author
-
-**Sun Jiao** from Wuhan Botanical Garden, Chinese Academy of Science
-
 ## Usage
 
 basic usage:
