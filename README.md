@@ -66,4 +66,4 @@ combine all fasta files in CDS folder:
 
 ## Others
 
-Most of untranslated Chinese comments are my nonsense. Please don't care about it.
+Most of untranslated Chinese comments are not important. Please don't care about it.
