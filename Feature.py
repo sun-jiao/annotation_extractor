@@ -14,21 +14,18 @@ class Feature(Record.Feature):
         super().__init__()
         self.__dict__ = feature.__dict__
 
-        # BioPython的Genbank类对feature的储存方式非常愚蠢，什么人写出来这种脑残代码。
-        # 它定义了一个qualifier类，里面含有两个字符串变量：key和value，然后把一堆qualifier类储存在一个list里面。
+        # BioPython定义了一个qualifier类，里面含有两个字符串变量：key和value，然后把一堆qualifier类储存在一个list里面。
         # 而且，key和value里面还包括了原始文件的分隔符，例如，原始文件的原文为：/gene="trnM-CAU"
         # 储存为：key='/gene=', value='"trnM-CAU"'(斜杠、等于号、双引号都是字符串内的一部分
-        # 我他妈……
         # 所以我这里将其储存在一个qualifier_dict的字典里面，并且去掉斜杠、等于号、双引号等累赘的分隔符
         qualifier_dict = {}
         for qualifier in self.qualifiers:
             qualifier_dict[qualifier.key[1:-1]] = qualifier.value[1:-1]
         self.qualifier_dict = qualifier_dict
 
-        # 对intervals或者叫location的储存也非常蠢，直接将原始文件的原文储存为一个字符串。
+        # 对intervals或者叫location的储存是直接将原始文件的原文储存为一个字符串。
         # 例如：join(complement(70173..70286),140516..140746,complement(98372..98398))
         # 还有complement在外，join在内的：complement(join(103716..103750,104294..104525,76550..76663))
-        # 蠢到让我不知道该说点什么好。
         # 此处调用后面构造的Interval类，将每一段作为一个interval，存储在一个list里面.
         # Interval类详见后文
         interval_strs = []
